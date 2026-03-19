@@ -1,0 +1,65 @@
+## \|Carga de datos
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+datos <- read_csv("NGACOL (1).csv")
+
+head(datos)
+```
+
+Aquí se observa el número de observaciones y el tipo de variables (categóricas y numéricas). Esto permite entender cómo se encuentra estructurado el conjunto de datos. Variables categóricas: - Soil_Class - origen
+
+Variables numéricas: - Magnitude - Rrup_OpenQuake - Hypocenter Depth (km) - T_0.01_RotD50 - Seismic Latitude - Seismic Longitude
+
+##Transformación a Escala Real
+
+```{r}
+datos <- datos %>%
+  mutate(
+    Rrup_real = exp(Rrup_OpenQuake),
+    Acc_real = exp(T_0.01_RotD50)
+  )
+summary(datos$Rrup_real)
+summary(datos$Acc_real)
+```
+
+Dado que las variables Rrup_OpenQuake y T_0.01_RotD50 se encuentran en escala logarítmica natural, se procede a transformarlas a su escala física real utilizando la función exponencial.
+
+##Prueba de Normalidad
+
+```{r}
+# Q-Q Plot
+ggplot(datos, aes(sample = T_0.01_RotD50)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(title = "Gráfico Q-Q de Normalidad (Escala Log)") +
+  theme_bw()
+```
+
+Dado el gran tamaño muestral, se evalúa normalidad mediante inspección gráfica.
+
+##Prueba de Homocedasticidad (Homogeneidad de Varianza)
+
+```{r}
+library(car)
+leveneTest(T_0.01_RotD50 ~ factor(Soil_Class), data = datos)
+```
+
+La prueba de Levene indica evidencia estadística de heterocedasticidad entre clases de suelo (p \< 0.05).
+
+####Correlacion
+
+```{r}
+cor.test(datos$Rrup_OpenQuake, datos$T_0.01_RotD50, method = "pearson")
+```
+
+El coeficiente de correlación de Pearson entre la distancia logarítmica a la ruptura (Rrup_OpenQuake) y la aceleración logarítmica (T_0.01_RotD50) es r = -0.43, indicando una relación lineal negativa moderada.
+
+El intervalo de confianza al 95% (-0.446, -0.414) confirma que la correlación es estadísticamente diferente de cero.
+
+El p-valor \< 0.001 sugiere evidencia estadística contundente de asociación lineal.
+
+Esta relación negativa es consistente con el fenómeno de atenuación sísmica: a mayor distancia a la fuente, menor aceleración registrada.

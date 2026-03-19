@@ -1,3 +1,20 @@
-# Final Words
+## Estadísticas de Resumen Log
 
-We have finished a nice book.
+```{r}
+datos %>%
+  summarise(n = n(),
+            media_log = mean(T_0.01_RotD50),
+            sd_log = sd(T_0.01_RotD50),
+            mediana_log = median(T_0.01_RotD50))
+```
+
+## Resumen en escala real
+
+```{r}
+datos %>%
+  summarise(media_g = mean(Acc_real),
+            sd_g = sd(Acc_real),
+            mediana_g = median(Acc_real),
+            min_g = min(Acc_real),
+            max_g = max(Acc_real))
+```
