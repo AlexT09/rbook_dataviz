@@ -4,24 +4,32 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | index.knit</title>
-  <meta name="description" content="" />
+  <title>Page not found | Análisis Exploratorio de Datos Sísmicos</title>
+  <meta name="description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | index.knit" />
+  <meta property="og:title" content="Page not found | Análisis Exploratorio de Datos Sísmicos" />
   <meta property="og:type" content="book" />
   
-  
+  <meta property="og:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | index.knit" />
+  <meta name="twitter:title" content="Page not found | Análisis Exploratorio de Datos Sísmicos" />
   
-  
+  <meta name="twitter:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
   
 
+<meta name="author" content="Alex Teran &amp; Eliasb Pajaro" />
 
 
+<meta name="date" content="2026-03-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -136,22 +144,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">EDA Sísmico - NGACOL</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path=""><a href="#an%C3%A1lisis-exploratorio-de-datos-eda"><i class="fa fa-check"></i><b>1</b> Análisis Exploratorio de Datos (EDA)</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path=""><a href="#ngacol"><i class="fa fa-check"></i><b>1.1</b> NGACOL</a></li>
-<li class="chapter" data-level="1.2" data-path=""><a href="#preguntas-para-el-an%C3%A1lisis"><i class="fa fa-check"></i><b>1.2</b> Preguntas para el análisis</a></li>
-<li class="chapter" data-level="1.3" data-path=""><a href="#carga-de-datos"><i class="fa fa-check"></i><b>1.3</b> |Carga de datos</a></li>
-<li class="chapter" data-level="1.4" data-path=""><a href="#visualizaci%C3%B3n-de-variables-categ%C3%B3ricas-tipo-de-suelo"><i class="fa fa-check"></i><b>1.4</b> Visualización de variables categóricas (Tipo de Suelo)</a></li>
-<li class="chapter" data-level="1.5" data-path=""><a href="#visualizaci%C3%B3n-de-variable-continua-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>1.5</b> Visualización de variable continua (Aceleración)</a></li>
-<li class="chapter" data-level="1.6" data-path=""><a href="#visualizaci%C3%B3n-de-variable-continua-aceleraci%C3%B3n-1"><i class="fa fa-check"></i><b>1.6</b> Visualización de variable continua (Aceleración)</a></li>
-<li class="chapter" data-level="1.7" data-path=""><a href="#estad%C3%ADsticas-de-resumen-log"><i class="fa fa-check"></i><b>1.7</b> Estadísticas de Resumen Log</a></li>
-<li class="chapter" data-level="1.8" data-path=""><a href="#resumen-en-escala-real"><i class="fa fa-check"></i><b>1.8</b> Resumen en escala real</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preguntas-iniciales"><i class="fa fa-check"></i>Preguntas iniciales</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html"><i class="fa fa-check"></i><b>1</b> Carga y Exploración de Datos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#valores-faltantes"><i class="fa fa-check"></i><b>1.1</b> Valores Faltantes</a></li>
+<li class="chapter" data-level="1.2" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#transformaci%C3%B3n-a-escala-real"><i class="fa fa-check"></i><b>1.2</b> Transformación a Escala Real</a></li>
+<li class="chapter" data-level="1.3" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-normalidad"><i class="fa fa-check"></i><b>1.3</b> Prueba de Normalidad</a></li>
+<li class="chapter" data-level="1.4" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-homocedasticidad"><i class="fa fa-check"></i><b>1.4</b> Prueba de Homocedasticidad</a></li>
+<li class="chapter" data-level="1.5" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-correlaci%C3%B3n-pearson"><i class="fa fa-check"></i><b>1.5</b> Prueba de Correlación (Pearson)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html"><i class="fa fa-check"></i><b>2</b> Visualización de Variables Categóricas</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-clase-de-suelo"><i class="fa fa-check"></i><b>2.1</b> Distribución por Clase de Suelo</a></li>
+<li class="chapter" data-level="2.2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-origen-de-los-datos"><i class="fa fa-check"></i><b>2.2</b> Distribución por Origen de los Datos</a></li>
+<li class="chapter" data-level="2.3" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#covariaci%C3%B3n-aceleraci%C3%B3n-por-origen"><i class="fa fa-check"></i><b>2.3</b> Covariación: Aceleración por Origen</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html"><i class="fa fa-check"></i><b>3</b> Visualización de Variables Continuas</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.1</b> Distribución de la Aceleración</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-magnitud"><i class="fa fa-check"></i><b>3.2</b> Distribución de la Magnitud</a></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-logar%C3%ADtmica"><i class="fa fa-check"></i><b>3.3</b> Estadísticas de Resumen (Escala Logarítmica)</a></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-real"><i class="fa fa-check"></i><b>3.4</b> Estadísticas de Resumen (Escala Real)</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.5</b> Densidad de la Aceleración</a></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-por-clase-de-suelo"><i class="fa fa-check"></i><b>3.6</b> Densidad por Clase de Suelo</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html"><i class="fa fa-check"></i><b>4</b> Visualización de Covariación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-boxplot"><i class="fa fa-check"></i><b>4.1</b> Aceleración por Tipo de Suelo (Boxplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-viol%C3%ADn"><i class="fa fa-check"></i><b>4.2</b> Aceleración por Tipo de Suelo (Violín)</a></li>
+<li class="chapter" data-level="4.3" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#curva-de-atenuaci%C3%B3n-dispersi%C3%B3n-con-tendencia"><i class="fa fa-check"></i><b>4.3</b> Curva de Atenuación (Dispersión con Tendencia)</a></li>
+<li class="chapter" data-level="4.4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#atenuaci%C3%B3n-por-origen-facetas"><i class="fa fa-check"></i><b>4.4</b> Atenuación por Origen (Facetas)</a></li>
+<li class="chapter" data-level="4.5" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#mapa-de-calor-hexbin"><i class="fa fa-check"></i><b>4.5</b> Mapa de Calor Hexbin</a></li>
+<li class="chapter" data-level="4.6" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#densidad-2d-con-contornos"><i class="fa fa-check"></i><b>4.6</b> Densidad 2D con Contornos</a></li>
+<li class="chapter" data-level="4.7" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#superficie-de-densidad-2d"><i class="fa fa-check"></i><b>4.7</b> Superficie de Densidad 2D</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html"><i class="fa fa-check"></i><b>5</b> Correlación de Variables Sísmicas</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#matriz-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.1</b> Matriz de Correlación</a></li>
+<li class="chapter" data-level="5.2" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#heatmap-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.2</b> Heatmap de Correlación</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html"><i class="fa fa-check"></i><b>6</b> Distribución Espacial de Eventos Sísmicos</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html#mapa-de-eventos-s%C3%ADsmicos"><i class="fa fa-check"></i><b>6.1</b> Mapa de Eventos Sísmicos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#respuestas-a-las-preguntas-iniciales"><i class="fa fa-check"></i><b>7.1</b> Respuestas a las preguntas iniciales</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusiones.html"><a href="conclusiones.html#preguntas-refinadas-para-an%C3%A1lisis-futuros"><i class="fa fa-check"></i><b>7.2</b> Preguntas refinadas para análisis futuros</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
 
 </ul>
 
@@ -162,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis Exploratorio de Datos Sísmicos</a>
           </h1>
         </div>
 
@@ -197,9 +245,9 @@ the table of contents to find the page you are looking for.</p>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
   "sharing": {
-    "github": false,
-    "facebook": true,
-    "twitter": true,
+    "github": true,
+    "facebook": false,
+    "twitter": false,
     "linkedin": false,
     "weibo": false,
     "instapaper": false,
@@ -212,10 +260,7 @@ gitbook.start({
     "family": "sans",
     "size": 2
   },
-  "edit": {
-    "link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
-    "text": "Edit"
-  },
+  "edit": null,
   "history": {
     "link": null,
     "text": null
@@ -224,7 +269,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": ["index.pdf", "index.epub"],
+  "download": ["eda-ngacol.pdf", "eda-ngacol.epub"],
   "search": {
     "engine": "fuse",
     "options": null

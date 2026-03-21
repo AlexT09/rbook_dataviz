@@ -1,4 +1,4 @@
-## Visualización de variables categóricas (Tipo de Suelo)
+# Graficos
 
 ```{r}
 datos %>%

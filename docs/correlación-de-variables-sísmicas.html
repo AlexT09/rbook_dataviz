@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Análisis Exploratorio de Datos Sísmicos</title>
+  <title>Capítulo 5 Correlación de Variables Sísmicas | Análisis Exploratorio de Datos Sísmicos</title>
   <meta name="description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
 sísmicos NGACOL, incluyendo visualización estática, estadísticas de
 resumen, correlaciones y distribución espacial de eventos.</p>" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Análisis Exploratorio de Datos Sísmicos" />
+  <meta property="og:title" content="Capítulo 5 Correlación de Variables Sísmicas | Análisis Exploratorio de Datos Sísmicos" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
@@ -19,7 +19,7 @@ resumen, correlaciones y distribución espacial de eventos.</p>" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Análisis Exploratorio de Datos Sísmicos" />
+  <meta name="twitter:title" content="Capítulo 5 Correlación de Variables Sísmicas | Análisis Exploratorio de Datos Sísmicos" />
   
   <meta name="twitter:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
 sísmicos NGACOL, incluyendo visualización estática, estadísticas de
@@ -36,8 +36,8 @@ resumen, correlaciones y distribución espacial de eventos.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="carga-y-exploración-de-datos.html"/>
+<link rel="prev" href="visualización-de-covariación.html"/>
+<link rel="next" href="distribución-espacial-de-eventos-sísmicos.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,35 +218,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Análisis Exploratorio de Datos Sísmicos</h1>
-<p class="author"><em>Alex Teran &amp; Eliasb Pajaro</em></p>
-<p class="date"><em>2026-03-21</em></p>
+<div id="correlación-de-variables-sísmicas" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capítulo 5</span> Correlación de Variables Sísmicas<a href="correlación-de-variables-sísmicas.html#correlaci%C3%B3n-de-variables-s%C3%ADsmicas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Un gráfico de correlación es una representación visual de la matriz
+de correlaciones entre variables numéricas. Facilita identificar
+relaciones lineales fuertes, positivas o negativas.</p>
+<div id="matriz-de-correlación" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Matriz de Correlación<a href="correlación-de-variables-sísmicas.html#matriz-de-correlaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="correlación-de-variables-sísmicas.html#cb38-1" tabindex="-1"></a>vars_sismicas <span class="ot">&lt;-</span> datos <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="correlación-de-variables-sísmicas.html#cb38-2" tabindex="-1"></a>  <span class="fu">select</span>(Magnitude, Rrup_OpenQuake, <span class="st">`</span><span class="at">Hypocenter Depth (km)</span><span class="st">`</span>, T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb38-3"><a href="correlación-de-variables-sísmicas.html#cb38-3" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="correlación-de-variables-sísmicas.html#cb38-4" tabindex="-1"></a>matriz_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(vars_sismicas, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>)</span>
+<span id="cb38-5"><a href="correlación-de-variables-sísmicas.html#cb38-5" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="correlación-de-variables-sísmicas.html#cb38-6" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(matriz_cor, <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>##                       Magnitude Rrup_OpenQuake Hypocenter Depth (km)
+## Magnitude                 1.000          0.417                 0.036
+## Rrup_OpenQuake            0.417          1.000                 0.090
+## Hypocenter Depth (km)     0.036          0.090                 1.000
+## T_0.01_RotD50             0.468         -0.430                 0.096
+##                       T_0.01_RotD50
+## Magnitude                     0.468
+## Rrup_OpenQuake               -0.430
+## Hypocenter Depth (km)         0.096
+## T_0.01_RotD50                 1.000</code></pre>
 </div>
-<div id="prefacio" class="section level1 unnumbered hasAnchor">
-<h1>Prefacio<a href="index.html#prefacio" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Este libro presenta un <strong>Análisis Exploratorio de Datos (EDA)</strong> aplicado
-al conjunto de datos sísmicos <strong>NGACOL</strong>, que reúne registros de
-aceleración del suelo provenientes de la base de datos norteamericana
-NGAW2 y de eventos sísmicos en Colombia.</p>
-<p>El EDA se desarrolla siguiendo el flujo iterativo propuesto en el
-Capítulo 3 del curso:</p>
-<ol style="list-style-type: decimal">
-<li>Generar preguntas sobre los datos</li>
-<li>Buscar respuestas mediante visualización, transformación y estadísticas</li>
-<li>Refinar las preguntas o generar nuevas</li>
-</ol>
-<div id="preguntas-iniciales" class="section level2 unnumbered hasAnchor">
-<h2>Preguntas iniciales<a href="index.html#preguntas-iniciales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<ul>
-<li>¿Cómo se distribuye la aceleración sísmica?</li>
-<li>¿Existe relación entre distancia a la ruptura y aceleración?</li>
-<li>¿Influye el tipo de suelo en la aceleración registrada?</li>
-<li>¿Existe variación espacial en los registros?</li>
-<li>¿La variable sigue un comportamiento log-normal?</li>
-<li>¿Existen diferencias entre los registros de origen NGAW2 y Colombia?</li>
-</ul>
+<div id="heatmap-de-correlación" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Heatmap de Correlación<a href="correlación-de-variables-sísmicas.html#heatmap-de-correlaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="correlación-de-variables-sísmicas.html#cb40-1" tabindex="-1"></a><span class="fu">corrplot</span>(matriz_cor, <span class="at">method =</span> <span class="st">&quot;color&quot;</span>, <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb40-2"><a href="correlación-de-variables-sísmicas.html#cb40-2" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>, <span class="at">tl.col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb40-3"><a href="correlación-de-variables-sísmicas.html#cb40-3" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st"> Matriz de Correlación Sísmica&quot;</span>)</span></code></pre></div>
+<p><img src="05-correlacion_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p><strong>Interpretación:</strong> La correlación más fuerte es entre
+<code>Rrup_OpenQuake</code> y <code>T_0.01_RotD50</code> (r = -0.43), confirmando la
+atenuación sísmica. La magnitud presenta correlación positiva
+moderada con la aceleración (r ≈ 0.38): eventos más grandes generan
+mayor aceleración. La profundidad muestra correlación débil con
+las demás variables.</p>
 
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="correlación-de-variables-sísmicas.html#cb41-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb41-2"><a href="correlación-de-variables-sísmicas.html#cb41-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb41-3"><a href="correlación-de-variables-sísmicas.html#cb41-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb41-4"><a href="correlación-de-variables-sísmicas.html#cb41-4" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="correlación-de-variables-sísmicas.html#cb41-5" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;NGACOL.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-6"><a href="correlación-de-variables-sísmicas.html#cb41-6" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb41-7"><a href="correlación-de-variables-sísmicas.html#cb41-7" tabindex="-1"></a>    <span class="at">Rrup_real =</span> <span class="fu">exp</span>(Rrup_OpenQuake),</span>
+<span id="cb41-8"><a href="correlación-de-variables-sísmicas.html#cb41-8" tabindex="-1"></a>    <span class="at">Acc_real  =</span> <span class="fu">exp</span>(T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb41-9"><a href="correlación-de-variables-sísmicas.html#cb41-9" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 </div>
             </section>
@@ -254,8 +271,8 @@ Capítulo 3 del curso:</p>
           </div>
         </div>
       </div>
-
-<a href="carga-y-exploración-de-datos.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="visualización-de-covariación.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distribución-espacial-de-eventos-sísmicos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

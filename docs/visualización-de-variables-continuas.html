@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Visualización de Variables Continuas | Análisis Exploratorio de Datos Sísmicos</title>
+  <meta name="description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Visualización de Variables Continuas | Análisis Exploratorio de Datos Sísmicos" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Visualización de Variables Continuas | Análisis Exploratorio de Datos Sísmicos" />
+  
+  <meta name="twitter:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  
+
+<meta name="author" content="Alex Teran &amp; Eliasb Pajaro" />
+
+
+<meta name="date" content="2026-03-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="visualización-de-variables-categóricas.html"/>
+<link rel="next" href="visualización-de-covariación.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">EDA Sísmico - NGACOL</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preguntas-iniciales"><i class="fa fa-check"></i>Preguntas iniciales</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html"><i class="fa fa-check"></i><b>1</b> Carga y Exploración de Datos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#valores-faltantes"><i class="fa fa-check"></i><b>1.1</b> Valores Faltantes</a></li>
+<li class="chapter" data-level="1.2" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#transformaci%C3%B3n-a-escala-real"><i class="fa fa-check"></i><b>1.2</b> Transformación a Escala Real</a></li>
+<li class="chapter" data-level="1.3" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-normalidad"><i class="fa fa-check"></i><b>1.3</b> Prueba de Normalidad</a></li>
+<li class="chapter" data-level="1.4" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-homocedasticidad"><i class="fa fa-check"></i><b>1.4</b> Prueba de Homocedasticidad</a></li>
+<li class="chapter" data-level="1.5" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-correlaci%C3%B3n-pearson"><i class="fa fa-check"></i><b>1.5</b> Prueba de Correlación (Pearson)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html"><i class="fa fa-check"></i><b>2</b> Visualización de Variables Categóricas</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-clase-de-suelo"><i class="fa fa-check"></i><b>2.1</b> Distribución por Clase de Suelo</a></li>
+<li class="chapter" data-level="2.2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-origen-de-los-datos"><i class="fa fa-check"></i><b>2.2</b> Distribución por Origen de los Datos</a></li>
+<li class="chapter" data-level="2.3" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#covariaci%C3%B3n-aceleraci%C3%B3n-por-origen"><i class="fa fa-check"></i><b>2.3</b> Covariación: Aceleración por Origen</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html"><i class="fa fa-check"></i><b>3</b> Visualización de Variables Continuas</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.1</b> Distribución de la Aceleración</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-magnitud"><i class="fa fa-check"></i><b>3.2</b> Distribución de la Magnitud</a></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-logar%C3%ADtmica"><i class="fa fa-check"></i><b>3.3</b> Estadísticas de Resumen (Escala Logarítmica)</a></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-real"><i class="fa fa-check"></i><b>3.4</b> Estadísticas de Resumen (Escala Real)</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.5</b> Densidad de la Aceleración</a></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-por-clase-de-suelo"><i class="fa fa-check"></i><b>3.6</b> Densidad por Clase de Suelo</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html"><i class="fa fa-check"></i><b>4</b> Visualización de Covariación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-boxplot"><i class="fa fa-check"></i><b>4.1</b> Aceleración por Tipo de Suelo (Boxplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-viol%C3%ADn"><i class="fa fa-check"></i><b>4.2</b> Aceleración por Tipo de Suelo (Violín)</a></li>
+<li class="chapter" data-level="4.3" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#curva-de-atenuaci%C3%B3n-dispersi%C3%B3n-con-tendencia"><i class="fa fa-check"></i><b>4.3</b> Curva de Atenuación (Dispersión con Tendencia)</a></li>
+<li class="chapter" data-level="4.4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#atenuaci%C3%B3n-por-origen-facetas"><i class="fa fa-check"></i><b>4.4</b> Atenuación por Origen (Facetas)</a></li>
+<li class="chapter" data-level="4.5" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#mapa-de-calor-hexbin"><i class="fa fa-check"></i><b>4.5</b> Mapa de Calor Hexbin</a></li>
+<li class="chapter" data-level="4.6" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#densidad-2d-con-contornos"><i class="fa fa-check"></i><b>4.6</b> Densidad 2D con Contornos</a></li>
+<li class="chapter" data-level="4.7" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#superficie-de-densidad-2d"><i class="fa fa-check"></i><b>4.7</b> Superficie de Densidad 2D</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html"><i class="fa fa-check"></i><b>5</b> Correlación de Variables Sísmicas</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#matriz-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.1</b> Matriz de Correlación</a></li>
+<li class="chapter" data-level="5.2" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#heatmap-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.2</b> Heatmap de Correlación</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html"><i class="fa fa-check"></i><b>6</b> Distribución Espacial de Eventos Sísmicos</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html#mapa-de-eventos-s%C3%ADsmicos"><i class="fa fa-check"></i><b>6.1</b> Mapa de Eventos Sísmicos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#respuestas-a-las-preguntas-iniciales"><i class="fa fa-check"></i><b>7.1</b> Respuestas a las preguntas iniciales</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusiones.html"><a href="conclusiones.html#preguntas-refinadas-para-an%C3%A1lisis-futuros"><i class="fa fa-check"></i><b>7.2</b> Preguntas refinadas para análisis futuros</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis Exploratorio de Datos Sísmicos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualización-de-variables-continuas" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Visualización de Variables Continuas<a href="visualización-de-variables-continuas.html#visualizaci%C3%B3n-de-variables-continuas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Las variables continuas se visualizan con histogramas, gráficos de
+densidad y estadísticas de resumen, que permiten entender su
+distribución y detectar asimetrías o valores extremos.</p>
+<div id="distribución-de-la-aceleración" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Distribución de la Aceleración<a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-aceleraci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="visualización-de-variables-continuas.html#cb21-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> T_0<span class="fl">.01</span>_RotD50)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="visualización-de-variables-continuas.html#cb21-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="visualización-de-variables-continuas.html#cb21-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución de la Aceleración (Escala Logarítmica)&quot;</span>,</span>
+<span id="cb21-4"><a href="visualización-de-variables-continuas.html#cb21-4" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Log(Aceleración)&quot;</span>,</span>
+<span id="cb21-5"><a href="visualización-de-variables-continuas.html#cb21-5" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="visualización-de-variables-continuas.html#cb21-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="03-continuas_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<p><strong>Interpretación:</strong> La distribución en escala logarítmica muestra una
+forma aproximadamente simétrica y unimodal, centrada alrededor de -4,
+lo que es consistente con un comportamiento log-normal.</p>
+</div>
+<div id="distribución-de-la-magnitud" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Distribución de la Magnitud<a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-magnitud" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="visualización-de-variables-continuas.html#cb22-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> Magnitude)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="visualización-de-variables-continuas.html#cb22-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="visualización-de-variables-continuas.html#cb22-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución de la Magnitud Sísmica&quot;</span>,</span>
+<span id="cb22-4"><a href="visualización-de-variables-continuas.html#cb22-4" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Magnitud&quot;</span>,</span>
+<span id="cb22-5"><a href="visualización-de-variables-continuas.html#cb22-5" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="visualización-de-variables-continuas.html#cb22-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="03-continuas_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p><strong>Interpretación:</strong> La magnitud presenta mayor concentración entre 5
+y 7, con pocos eventos de magnitud muy alta (&gt; 7.5). Esto es típico
+de bases de datos sísmicas instrumentales donde los eventos moderados
+son más frecuentes que los grandes terremotos.</p>
+</div>
+<div id="estadísticas-de-resumen-escala-logarítmica" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Estadísticas de Resumen (Escala Logarítmica)<a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-logar%C3%ADtmica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="visualización-de-variables-continuas.html#cb23-1" tabindex="-1"></a>resumen_log <span class="ot">&lt;-</span> datos <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="visualización-de-variables-continuas.html#cb23-2" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb23-3"><a href="visualización-de-variables-continuas.html#cb23-3" tabindex="-1"></a>    <span class="at">n           =</span> <span class="fu">n</span>(),</span>
+<span id="cb23-4"><a href="visualización-de-variables-continuas.html#cb23-4" tabindex="-1"></a>    <span class="at">media_log   =</span> <span class="fu">mean</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-5"><a href="visualización-de-variables-continuas.html#cb23-5" tabindex="-1"></a>    <span class="at">mediana_log =</span> <span class="fu">median</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-6"><a href="visualización-de-variables-continuas.html#cb23-6" tabindex="-1"></a>    <span class="at">sd_log      =</span> <span class="fu">sd</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-7"><a href="visualización-de-variables-continuas.html#cb23-7" tabindex="-1"></a>    <span class="at">min_log     =</span> <span class="fu">min</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-8"><a href="visualización-de-variables-continuas.html#cb23-8" tabindex="-1"></a>    <span class="at">Q1_log      =</span> <span class="fu">quantile</span>(T_0<span class="fl">.01</span>_RotD50, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-9"><a href="visualización-de-variables-continuas.html#cb23-9" tabindex="-1"></a>    <span class="at">Q3_log      =</span> <span class="fu">quantile</span>(T_0<span class="fl">.01</span>_RotD50, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-10"><a href="visualización-de-variables-continuas.html#cb23-10" tabindex="-1"></a>    <span class="at">max_log     =</span> <span class="fu">max</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-11"><a href="visualización-de-variables-continuas.html#cb23-11" tabindex="-1"></a>    <span class="at">IQR_log     =</span> <span class="fu">IQR</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-12"><a href="visualización-de-variables-continuas.html#cb23-12" tabindex="-1"></a>    <span class="at">asimetria   =</span> <span class="fu">skewness</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-13"><a href="visualización-de-variables-continuas.html#cb23-13" tabindex="-1"></a>    <span class="at">curtosis    =</span> <span class="fu">kurtosis</span>(T_0<span class="fl">.01</span>_RotD50, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-14"><a href="visualización-de-variables-continuas.html#cb23-14" tabindex="-1"></a>  )</span>
+<span id="cb23-15"><a href="visualización-de-variables-continuas.html#cb23-15" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="visualización-de-variables-continuas.html#cb23-16" tabindex="-1"></a>resumen_log</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 11
+##       n media_log mediana_log sd_log min_log Q1_log Q3_log max_log IQR_log
+##   &lt;int&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 10239     -4.12       -4.08   1.70   -9.09  -5.25  -2.87   0.584    2.37
+## # ℹ 2 more variables: asimetria &lt;dbl&gt;, curtosis &lt;dbl&gt;</code></pre>
+<p><strong>Interpretación:</strong> La media logarítmica es de aproximadamente -4.12
+y la mediana de -4.08, valores muy cercanos entre sí, confirmando la
+simetría relativa de la distribución. La asimetría cercana a cero y
+la curtosis mayor a 3 indican colas ligeramente más pesadas que una
+distribución normal estándar.</p>
+</div>
+<div id="estadísticas-de-resumen-escala-real" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Estadísticas de Resumen (Escala Real)<a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-real" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="visualización-de-variables-continuas.html#cb25-1" tabindex="-1"></a>datos <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="visualización-de-variables-continuas.html#cb25-2" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-3"><a href="visualización-de-variables-continuas.html#cb25-3" tabindex="-1"></a>    <span class="at">media_g   =</span> <span class="fu">mean</span>(Acc_real),</span>
+<span id="cb25-4"><a href="visualización-de-variables-continuas.html#cb25-4" tabindex="-1"></a>    <span class="at">sd_g      =</span> <span class="fu">sd</span>(Acc_real),</span>
+<span id="cb25-5"><a href="visualización-de-variables-continuas.html#cb25-5" tabindex="-1"></a>    <span class="at">mediana_g =</span> <span class="fu">median</span>(Acc_real),</span>
+<span id="cb25-6"><a href="visualización-de-variables-continuas.html#cb25-6" tabindex="-1"></a>    <span class="at">min_g     =</span> <span class="fu">min</span>(Acc_real),</span>
+<span id="cb25-7"><a href="visualización-de-variables-continuas.html#cb25-7" tabindex="-1"></a>    <span class="at">max_g     =</span> <span class="fu">max</span>(Acc_real)</span>
+<span id="cb25-8"><a href="visualización-de-variables-continuas.html#cb25-8" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 5
+##   media_g  sd_g mediana_g    min_g max_g
+##     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.0553 0.108    0.0170 0.000113  1.79</code></pre>
+</div>
+<div id="densidad-de-la-aceleración" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Densidad de la Aceleración<a href="visualización-de-variables-continuas.html#densidad-de-la-aceleraci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="visualización-de-variables-continuas.html#cb27-1" tabindex="-1"></a>datos <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="visualización-de-variables-continuas.html#cb27-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> T_0<span class="fl">.01</span>_RotD50)) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="visualización-de-variables-continuas.html#cb27-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="visualización-de-variables-continuas.html#cb27-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Densidad de la Aceleración Sísmica (Escala Log)&quot;</span>,</span>
+<span id="cb27-5"><a href="visualización-de-variables-continuas.html#cb27-5" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Log(Aceleración)&quot;</span>,</span>
+<span id="cb27-6"><a href="visualización-de-variables-continuas.html#cb27-6" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="visualización-de-variables-continuas.html#cb27-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="03-continuas_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+</div>
+<div id="densidad-por-clase-de-suelo" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Densidad por Clase de Suelo<a href="visualización-de-variables-continuas.html#densidad-por-clase-de-suelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="visualización-de-variables-continuas.html#cb28-1" tabindex="-1"></a>datos <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="visualización-de-variables-continuas.html#cb28-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> T_0<span class="fl">.01</span>_RotD50, <span class="at">fill =</span> <span class="fu">factor</span>(Soil_Class))) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="visualización-de-variables-continuas.html#cb28-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="visualización-de-variables-continuas.html#cb28-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Densidad de Aceleración por Clase de Suelo&quot;</span>,</span>
+<span id="cb28-5"><a href="visualización-de-variables-continuas.html#cb28-5" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Log(Aceleración)&quot;</span>,</span>
+<span id="cb28-6"><a href="visualización-de-variables-continuas.html#cb28-6" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>,</span>
+<span id="cb28-7"><a href="visualización-de-variables-continuas.html#cb28-7" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Clase de Suelo&quot;</span>) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="visualización-de-variables-continuas.html#cb28-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="03-continuas_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
+<p><strong>Interpretación:</strong> Las curvas de densidad por clase de suelo muestran
+distribuciones similares pero con ligeros desplazamientos en la media,
+lo que sugiere un efecto moderado del tipo de suelo sobre la
+aceleración registrada.</p>
+
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="visualización-de-variables-continuas.html#cb29-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb29-2"><a href="visualización-de-variables-continuas.html#cb29-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb29-3"><a href="visualización-de-variables-continuas.html#cb29-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb29-4"><a href="visualización-de-variables-continuas.html#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="visualización-de-variables-continuas.html#cb29-5" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;NGACOL.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="visualización-de-variables-continuas.html#cb29-6" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-7"><a href="visualización-de-variables-continuas.html#cb29-7" tabindex="-1"></a>    <span class="at">Rrup_real =</span> <span class="fu">exp</span>(Rrup_OpenQuake),</span>
+<span id="cb29-8"><a href="visualización-de-variables-continuas.html#cb29-8" tabindex="-1"></a>    <span class="at">Acc_real  =</span> <span class="fu">exp</span>(T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb29-9"><a href="visualización-de-variables-continuas.html#cb29-9" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="visualización-de-variables-categóricas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualización-de-covariación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["eda-ngacol.pdf", "eda-ngacol.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

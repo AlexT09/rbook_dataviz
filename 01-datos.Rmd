@@ -1,0 +1,107 @@
+# Carga y Exploración de Datos
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(moments)
+library(corrplot)
+library(car)
+
+datos <- read_csv("NGACOL.csv")
+
+head(datos)
+```
+
+```{r}
+str(datos)
+```
+
+El conjunto de datos tiene **10,239 registros** y **11 variables**.
+
+**Variables categóricas:**
+
+- `Soil_Class`: clase de suelo (valores 1 a 5)
+- `origen`: fuente de los datos (NGAW2 o Colombia)
+
+**Variables numéricas:**
+
+- `Magnitude`: magnitud del evento sísmico
+- `Rrup_OpenQuake`: distancia a la ruptura (escala logarítmica)
+- `Hypocenter Depth (km)`: profundidad del hipocentro
+- `T_0.01_RotD50`: aceleración sísmica (escala logarítmica)
+- `Seismic Latitude` / `Seismic Longitude`: coordenadas del evento
+- `Station Latitude` / `Station Longitude`: coordenadas de la estación
+- `Tmax`: periodo máximo registrado
+
+## Valores Faltantes
+
+```{r}
+colSums(is.na(datos))
+```
+
+Se identifican **35 valores NA** en la variable `Tmax`. Las demás
+variables están completas. Esto se tendrá en cuenta en los análisis
+que involucren dicha variable.
+
+## Transformación a Escala Real
+
+```{r}
+datos <- datos %>%
+  mutate(
+    Rrup_real = exp(Rrup_OpenQuake),
+    Acc_real  = exp(T_0.01_RotD50)
+  )
+
+summary(datos$Rrup_real)
+summary(datos$Acc_real)
+```
+
+Las variables `Rrup_OpenQuake` y `T_0.01_RotD50` se encuentran en
+escala logarítmica natural. Se transforman a su escala física real
+mediante la función exponencial, permitiendo interpretar los valores
+en unidades originales (km y g respectivamente).
+
+## Prueba de Normalidad
+
+```{r}
+ggplot(datos, aes(sample = T_0.01_RotD50)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  labs(title = "Gráfico Q-Q de Normalidad (Escala Log)",
+       x = "Cuantiles teóricos",
+       y = "Cuantiles muestrales") +
+  theme_bw()
+```
+
+El gráfico Q-Q muestra que los datos en escala logarítmica se ajustan
+razonablemente bien a la línea de referencia normal (en rojo), con
+ligeras desviaciones en las colas. El comportamiento es consistente
+con la distribución log-normal ampliamente reportada en la literatura
+sísmica.
+
+## Prueba de Homocedasticidad
+
+```{r warning=FALSE}
+leveneTest(T_0.01_RotD50 ~ factor(Soil_Class), data = datos)
+```
+
+La prueba de Levene indica evidencia estadística de
+**heterocedasticidad** entre clases de suelo (p < 0.05). La varianza
+de la aceleración no es igual en todos los tipos de suelo, lo cual
+tiene implicaciones importantes para modelos estadísticos que asuman
+varianza constante.
+
+## Prueba de Correlación (Pearson)
+
+```{r}
+cor.test(datos$Rrup_OpenQuake, datos$T_0.01_RotD50, method = "pearson")
+```
+
+El coeficiente de correlación de Pearson es **r = -0.43**, indicando
+una relación lineal negativa moderada entre la distancia y la
+aceleración. El intervalo de confianza al 95% (-0.446, -0.414)
+confirma que la correlación es estadísticamente diferente de cero
+(p < 0.001). Esta relación negativa es consistente con el fenómeno
+de **atenuación sísmica**: a mayor distancia a la fuente, menor
+aceleración registrada.

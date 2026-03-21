@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Carga y Exploración de Datos | Análisis Exploratorio de Datos Sísmicos</title>
+  <meta name="description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Carga y Exploración de Datos | Análisis Exploratorio de Datos Sísmicos" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Carga y Exploración de Datos | Análisis Exploratorio de Datos Sísmicos" />
+  
+  <meta name="twitter:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
+sísmicos NGACOL, incluyendo visualización estática, estadísticas de
+resumen, correlaciones y distribución espacial de eventos.</p>" />
+  
+
+<meta name="author" content="Alex Teran &amp; Eliasb Pajaro" />
+
+
+<meta name="date" content="2026-03-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="visualización-de-variables-categóricas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">EDA Sísmico - NGACOL</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#preguntas-iniciales"><i class="fa fa-check"></i>Preguntas iniciales</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html"><i class="fa fa-check"></i><b>1</b> Carga y Exploración de Datos</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#valores-faltantes"><i class="fa fa-check"></i><b>1.1</b> Valores Faltantes</a></li>
+<li class="chapter" data-level="1.2" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#transformaci%C3%B3n-a-escala-real"><i class="fa fa-check"></i><b>1.2</b> Transformación a Escala Real</a></li>
+<li class="chapter" data-level="1.3" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-normalidad"><i class="fa fa-check"></i><b>1.3</b> Prueba de Normalidad</a></li>
+<li class="chapter" data-level="1.4" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-homocedasticidad"><i class="fa fa-check"></i><b>1.4</b> Prueba de Homocedasticidad</a></li>
+<li class="chapter" data-level="1.5" data-path="carga-y-exploración-de-datos.html"><a href="carga-y-exploración-de-datos.html#prueba-de-correlaci%C3%B3n-pearson"><i class="fa fa-check"></i><b>1.5</b> Prueba de Correlación (Pearson)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html"><i class="fa fa-check"></i><b>2</b> Visualización de Variables Categóricas</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-clase-de-suelo"><i class="fa fa-check"></i><b>2.1</b> Distribución por Clase de Suelo</a></li>
+<li class="chapter" data-level="2.2" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#distribuci%C3%B3n-por-origen-de-los-datos"><i class="fa fa-check"></i><b>2.2</b> Distribución por Origen de los Datos</a></li>
+<li class="chapter" data-level="2.3" data-path="visualización-de-variables-categóricas.html"><a href="visualización-de-variables-categóricas.html#covariaci%C3%B3n-aceleraci%C3%B3n-por-origen"><i class="fa fa-check"></i><b>2.3</b> Covariación: Aceleración por Origen</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html"><i class="fa fa-check"></i><b>3</b> Visualización de Variables Continuas</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.1</b> Distribución de la Aceleración</a></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#distribuci%C3%B3n-de-la-magnitud"><i class="fa fa-check"></i><b>3.2</b> Distribución de la Magnitud</a></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-logar%C3%ADtmica"><i class="fa fa-check"></i><b>3.3</b> Estadísticas de Resumen (Escala Logarítmica)</a></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#estad%C3%ADsticas-de-resumen-escala-real"><i class="fa fa-check"></i><b>3.4</b> Estadísticas de Resumen (Escala Real)</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-de-la-aceleraci%C3%B3n"><i class="fa fa-check"></i><b>3.5</b> Densidad de la Aceleración</a></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-variables-continuas.html"><a href="visualización-de-variables-continuas.html#densidad-por-clase-de-suelo"><i class="fa fa-check"></i><b>3.6</b> Densidad por Clase de Suelo</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html"><i class="fa fa-check"></i><b>4</b> Visualización de Covariación</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-boxplot"><i class="fa fa-check"></i><b>4.1</b> Aceleración por Tipo de Suelo (Boxplot)</a></li>
+<li class="chapter" data-level="4.2" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#aceleraci%C3%B3n-por-tipo-de-suelo-viol%C3%ADn"><i class="fa fa-check"></i><b>4.2</b> Aceleración por Tipo de Suelo (Violín)</a></li>
+<li class="chapter" data-level="4.3" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#curva-de-atenuaci%C3%B3n-dispersi%C3%B3n-con-tendencia"><i class="fa fa-check"></i><b>4.3</b> Curva de Atenuación (Dispersión con Tendencia)</a></li>
+<li class="chapter" data-level="4.4" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#atenuaci%C3%B3n-por-origen-facetas"><i class="fa fa-check"></i><b>4.4</b> Atenuación por Origen (Facetas)</a></li>
+<li class="chapter" data-level="4.5" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#mapa-de-calor-hexbin"><i class="fa fa-check"></i><b>4.5</b> Mapa de Calor Hexbin</a></li>
+<li class="chapter" data-level="4.6" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#densidad-2d-con-contornos"><i class="fa fa-check"></i><b>4.6</b> Densidad 2D con Contornos</a></li>
+<li class="chapter" data-level="4.7" data-path="visualización-de-covariación.html"><a href="visualización-de-covariación.html#superficie-de-densidad-2d"><i class="fa fa-check"></i><b>4.7</b> Superficie de Densidad 2D</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html"><i class="fa fa-check"></i><b>5</b> Correlación de Variables Sísmicas</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#matriz-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.1</b> Matriz de Correlación</a></li>
+<li class="chapter" data-level="5.2" data-path="correlación-de-variables-sísmicas.html"><a href="correlación-de-variables-sísmicas.html#heatmap-de-correlaci%C3%B3n"><i class="fa fa-check"></i><b>5.2</b> Heatmap de Correlación</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html"><i class="fa fa-check"></i><b>6</b> Distribución Espacial de Eventos Sísmicos</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="distribución-espacial-de-eventos-sísmicos.html"><a href="distribución-espacial-de-eventos-sísmicos.html#mapa-de-eventos-s%C3%ADsmicos"><i class="fa fa-check"></i><b>6.1</b> Mapa de Eventos Sísmicos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#respuestas-a-las-preguntas-iniciales"><i class="fa fa-check"></i><b>7.1</b> Respuestas a las preguntas iniciales</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusiones.html"><a href="conclusiones.html#preguntas-refinadas-para-an%C3%A1lisis-futuros"><i class="fa fa-check"></i><b>7.2</b> Preguntas refinadas para análisis futuros</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis Exploratorio de Datos Sísmicos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="carga-y-exploración-de-datos" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Capítulo 1</span> Carga y Exploración de Datos<a href="carga-y-exploración-de-datos.html#carga-y-exploraci%C3%B3n-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="carga-y-exploración-de-datos.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="carga-y-exploración-de-datos.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="carga-y-exploración-de-datos.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="carga-y-exploración-de-datos.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(moments)</span>
+<span id="cb1-5"><a href="carga-y-exploración-de-datos.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-6"><a href="carga-y-exploración-de-datos.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-7"><a href="carga-y-exploración-de-datos.html#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="carga-y-exploración-de-datos.html#cb1-8" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;NGACOL.csv&quot;</span>)</span>
+<span id="cb1-9"><a href="carga-y-exploración-de-datos.html#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="carga-y-exploración-de-datos.html#cb1-10" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 11
+##   `Hypocenter Depth (km)` Magnitude Rrup_OpenQuake Soil_Class  Tmax origen
+##                     &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+## 1                    7.21       3.4           2.50          2 0.808 NGAW2 
+## 2                    7.21       3.4           3.30          3 1.08  NGAW2 
+## 3                    7.21       3.4           3.55          3 1.08  NGAW2 
+## 4                    7.21       3.4           3.00          3 1.33  NGAW2 
+## 5                    8.47       3.4           2.53          3 1.67  NGAW2 
+## 6                    8.47       3.4           3.36          2 1.01  NGAW2 
+## # ℹ 5 more variables: `Seismic Latitude` &lt;dbl&gt;, `Seismic Longitude` &lt;dbl&gt;,
+## #   `Station Latitude` &lt;dbl&gt;, `Station Longitude` &lt;dbl&gt;, T_0.01_RotD50 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="carga-y-exploración-de-datos.html#cb3-1" tabindex="-1"></a><span class="fu">str</span>(datos)</span></code></pre></div>
+<pre><code>## spc_tbl_ [10,239 × 11] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ Hypocenter Depth (km): num [1:10239] 7.21 7.21 7.21 7.21 8.47 ...
+##  $ Magnitude            : num [1:10239] 3.4 3.4 3.4 3.4 3.4 3.4 3.45 3.45 3.45 3.48 ...
+##  $ Rrup_OpenQuake       : num [1:10239] 2.5 3.3 3.55 3 2.53 ...
+##  $ Soil_Class           : num [1:10239] 2 3 3 3 3 2 3 3 3 3 ...
+##  $ Tmax                 : num [1:10239] 0.808 1.081 1.081 1.333 1.667 ...
+##  $ origen               : chr [1:10239] &quot;NGAW2&quot; &quot;NGAW2&quot; &quot;NGAW2&quot; &quot;NGAW2&quot; ...
+##  $ Seismic Latitude     : num [1:10239] 37.1 37.1 37.1 37.1 36.6 ...
+##  $ Seismic Longitude    : num [1:10239] -122 -122 -122 -122 -121 ...
+##  $ Station Latitude     : num [1:10239] 37.2 37 36.9 37.2 36.6 ...
+##  $ Station Longitude    : num [1:10239] -122 -122 -122 -122 -121 ...
+##  $ T_0.01_RotD50        : num [1:10239] -6.82 -6.37 -5.96 -5.32 -2.7 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   `Hypocenter Depth (km)` = col_double(),
+##   ..   Magnitude = col_double(),
+##   ..   Rrup_OpenQuake = col_double(),
+##   ..   Soil_Class = col_double(),
+##   ..   Tmax = col_double(),
+##   ..   origen = col_character(),
+##   ..   `Seismic Latitude` = col_double(),
+##   ..   `Seismic Longitude` = col_double(),
+##   ..   `Station Latitude` = col_double(),
+##   ..   `Station Longitude` = col_double(),
+##   ..   T_0.01_RotD50 = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<p>El conjunto de datos tiene <strong>10,239 registros</strong> y <strong>11 variables</strong>.</p>
+<p><strong>Variables categóricas:</strong></p>
+<ul>
+<li><code>Soil_Class</code>: clase de suelo (valores 1 a 5)</li>
+<li><code>origen</code>: fuente de los datos (NGAW2 o Colombia)</li>
+</ul>
+<p><strong>Variables numéricas:</strong></p>
+<ul>
+<li><code>Magnitude</code>: magnitud del evento sísmico</li>
+<li><code>Rrup_OpenQuake</code>: distancia a la ruptura (escala logarítmica)</li>
+<li><code>Hypocenter Depth (km)</code>: profundidad del hipocentro</li>
+<li><code>T_0.01_RotD50</code>: aceleración sísmica (escala logarítmica)</li>
+<li><code>Seismic Latitude</code> / <code>Seismic Longitude</code>: coordenadas del evento</li>
+<li><code>Station Latitude</code> / <code>Station Longitude</code>: coordenadas de la estación</li>
+<li><code>Tmax</code>: periodo máximo registrado</li>
+</ul>
+<div id="valores-faltantes" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Valores Faltantes<a href="carga-y-exploración-de-datos.html#valores-faltantes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="carga-y-exploración-de-datos.html#cb5-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(datos))</span></code></pre></div>
+<pre><code>## Hypocenter Depth (km)             Magnitude        Rrup_OpenQuake 
+##                     0                     0                     0 
+##            Soil_Class                  Tmax                origen 
+##                     0                    35                     0 
+##      Seismic Latitude     Seismic Longitude      Station Latitude 
+##                     0                     0                     0 
+##     Station Longitude         T_0.01_RotD50 
+##                     0                     0</code></pre>
+<p>Se identifican <strong>35 valores NA</strong> en la variable <code>Tmax</code>. Las demás
+variables están completas. Esto se tendrá en cuenta en los análisis
+que involucren dicha variable.</p>
+</div>
+<div id="transformación-a-escala-real" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Transformación a Escala Real<a href="carga-y-exploración-de-datos.html#transformaci%C3%B3n-a-escala-real" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="carga-y-exploración-de-datos.html#cb7-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> datos <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="carga-y-exploración-de-datos.html#cb7-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="carga-y-exploración-de-datos.html#cb7-3" tabindex="-1"></a>    <span class="at">Rrup_real =</span> <span class="fu">exp</span>(Rrup_OpenQuake),</span>
+<span id="cb7-4"><a href="carga-y-exploración-de-datos.html#cb7-4" tabindex="-1"></a>    <span class="at">Acc_real  =</span> <span class="fu">exp</span>(T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb7-5"><a href="carga-y-exploración-de-datos.html#cb7-5" tabindex="-1"></a>  )</span>
+<span id="cb7-6"><a href="carga-y-exploración-de-datos.html#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="carga-y-exploración-de-datos.html#cb7-7" tabindex="-1"></a><span class="fu">summary</span>(datos<span class="sc">$</span>Rrup_real)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.05   34.93   71.48  105.48  145.28 1532.66</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="carga-y-exploración-de-datos.html#cb9-1" tabindex="-1"></a><span class="fu">summary</span>(datos<span class="sc">$</span>Acc_real)</span></code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0001128 0.0052669 0.0169618 0.0552774 0.0566147 1.7931580</code></pre>
+<p>Las variables <code>Rrup_OpenQuake</code> y <code>T_0.01_RotD50</code> se encuentran en
+escala logarítmica natural. Se transforman a su escala física real
+mediante la función exponencial, permitiendo interpretar los valores
+en unidades originales (km y g respectivamente).</p>
+</div>
+<div id="prueba-de-normalidad" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Prueba de Normalidad<a href="carga-y-exploración-de-datos.html#prueba-de-normalidad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="carga-y-exploración-de-datos.html#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">sample =</span> T_0<span class="fl">.01</span>_RotD50)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="carga-y-exploración-de-datos.html#cb11-2" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="carga-y-exploración-de-datos.html#cb11-3" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="carga-y-exploración-de-datos.html#cb11-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Gráfico Q-Q de Normalidad (Escala Log)&quot;</span>,</span>
+<span id="cb11-5"><a href="carga-y-exploración-de-datos.html#cb11-5" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Cuantiles teóricos&quot;</span>,</span>
+<span id="cb11-6"><a href="carga-y-exploración-de-datos.html#cb11-6" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Cuantiles muestrales&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="carga-y-exploración-de-datos.html#cb11-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="01-datos_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<p>El gráfico Q-Q muestra que los datos en escala logarítmica se ajustan
+razonablemente bien a la línea de referencia normal (en rojo), con
+ligeras desviaciones en las colas. El comportamiento es consistente
+con la distribución log-normal ampliamente reportada en la literatura
+sísmica.</p>
+</div>
+<div id="prueba-de-homocedasticidad" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Prueba de Homocedasticidad<a href="carga-y-exploración-de-datos.html#prueba-de-homocedasticidad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="carga-y-exploración-de-datos.html#cb12-1" tabindex="-1"></a><span class="fu">leveneTest</span>(T_0<span class="fl">.01</span>_RotD50 <span class="sc">~</span> <span class="fu">factor</span>(Soil_Class), <span class="at">data =</span> datos)</span></code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##          Df F value    Pr(&gt;F)    
+## group     4  31.792 &lt; 2.2e-16 ***
+##       10234                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>La prueba de Levene indica evidencia estadística de
+<strong>heterocedasticidad</strong> entre clases de suelo (p &lt; 0.05). La varianza
+de la aceleración no es igual en todos los tipos de suelo, lo cual
+tiene implicaciones importantes para modelos estadísticos que asuman
+varianza constante.</p>
+</div>
+<div id="prueba-de-correlación-pearson" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Prueba de Correlación (Pearson)<a href="carga-y-exploración-de-datos.html#prueba-de-correlaci%C3%B3n-pearson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="carga-y-exploración-de-datos.html#cb14-1" tabindex="-1"></a><span class="fu">cor.test</span>(datos<span class="sc">$</span>Rrup_OpenQuake, datos<span class="sc">$</span>T_0<span class="fl">.01</span>_RotD50, <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  datos$Rrup_OpenQuake and datos$T_0.01_RotD50
+## t = -48.189, df = 10237, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.4456573 -0.4140782
+## sample estimates:
+##        cor 
+## -0.4299992</code></pre>
+<p>El coeficiente de correlación de Pearson es <strong>r = -0.43</strong>, indicando
+una relación lineal negativa moderada entre la distancia y la
+aceleración. El intervalo de confianza al 95% (-0.446, -0.414)
+confirma que la correlación es estadísticamente diferente de cero
+(p &lt; 0.001). Esta relación negativa es consistente con el fenómeno
+de <strong>atenuación sísmica</strong>: a mayor distancia a la fuente, menor
+aceleración registrada.</p>
+
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="carga-y-exploración-de-datos.html#cb16-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb16-2"><a href="carga-y-exploración-de-datos.html#cb16-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb16-3"><a href="carga-y-exploración-de-datos.html#cb16-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-4"><a href="carga-y-exploración-de-datos.html#cb16-4" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="carga-y-exploración-de-datos.html#cb16-5" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;NGACOL.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="carga-y-exploración-de-datos.html#cb16-6" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-7"><a href="carga-y-exploración-de-datos.html#cb16-7" tabindex="-1"></a>    <span class="at">Rrup_real =</span> <span class="fu">exp</span>(Rrup_OpenQuake),</span>
+<span id="cb16-8"><a href="carga-y-exploración-de-datos.html#cb16-8" tabindex="-1"></a>    <span class="at">Acc_real  =</span> <span class="fu">exp</span>(T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb16-9"><a href="carga-y-exploración-de-datos.html#cb16-9" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualización-de-variables-categóricas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["eda-ngacol.pdf", "eda-ngacol.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

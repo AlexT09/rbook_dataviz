@@ -1,0 +1,155 @@
+
+``` r
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+datos <- read_csv("NGACOL.csv") %>%
+  mutate(
+    Rrup_real = exp(Rrup_OpenQuake),
+    Acc_real  = exp(T_0.01_RotD50)
+  )
+```
+
+# Visualización de Covariación
+
+La covariación describe cómo cambian conjuntamente dos variables. Se
+visualiza con boxplots, gráficos de violín, dispersión y mapas de calor.
+
+## Aceleración por Tipo de Suelo (Boxplot)
+
+
+``` r
+ggplot(datos, aes(x = factor(Soil_Class), y = T_0.01_RotD50)) +
+  geom_boxplot(fill = "gold", alpha = 0.7) +
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 4, color = "red") +
+  labs(title = "Covariación: Aceleración por Tipo de Suelo",
+       x = "Clase de Suelo",
+       y = "Log(Aceleración)") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" />
+
+**Interpretación:** Las clases de suelo más blandas (4 y 5) tienden
+a registrar aceleraciones ligeramente más altas, consistente con el
+efecto de amplificación de sitio. La coincidencia cercana entre la
+media (punto rojo) y la mediana sugiere simetría relativa dentro de
+cada clase.
+
+## Aceleración por Tipo de Suelo (Violín)
+
+
+``` r
+datos %>%
+  ggplot(mapping = aes(x = factor(Soil_Class), y = T_0.01_RotD50)) +
+  geom_violin(fill = "lightblue", alpha = 0.7) +
+  geom_boxplot(width = 0.15) +
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 3, color = "red") +
+  labs(title = "Distribución de Aceleración por Clase de Suelo (Violín)",
+       x = "Clase de Suelo",
+       y = "Log(Aceleración)") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" />
+
+**Interpretación:** El gráfico de violín muestra la densidad de
+probabilidad completa en cada clase. La Clase 3 tiene la distribución
+más concentrada, mientras que las clases extremas (1 y 5) presentan
+mayor dispersión, posiblemente por su menor representación.
+
+## Curva de Atenuación (Dispersión con Tendencia)
+
+
+``` r
+ggplot(datos, aes(x = Rrup_OpenQuake, y = T_0.01_RotD50)) +
+  geom_point(aes(color = factor(Soil_Class)), alpha = 0.3, size = 0.8) +
+  geom_smooth(method = "loess", color = "black", se = TRUE) +
+  labs(title = "Curva de Atenuación Sísmica",
+       x = "Log(Distancia de Ruptura)",
+       y = "Log(Aceleración)",
+       color = "Clase de Suelo") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" />
+
+**Interpretación:** La curva de atenuación muestra claramente la
+tendencia negativa entre distancia y aceleración. El tipo de suelo
+introduce dispersión adicional alrededor de la curva media.
+
+## Atenuación por Origen (Facetas)
+
+
+``` r
+ggplot(datos, aes(x = Rrup_OpenQuake, y = T_0.01_RotD50)) +
+  geom_point(alpha = 0.3, size = 0.7, color = "steelblue") +
+  geom_smooth(method = "loess", color = "darkorange", se = TRUE) +
+  facet_wrap(~origen) +
+  labs(title = "Curva de Atenuación por Origen de los Datos",
+       x = "Log(Distancia de Ruptura)",
+       y = "Log(Aceleración)") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" />
+
+**Interpretación:** Las curvas de atenuación por origen muestran un
+comportamiento similar entre NGAW2 y Colombia, aunque los datos
+colombianos cubren un rango más estrecho de distancias.
+
+## Mapa de Calor Hexbin
+
+
+``` r
+ggplot(datos, aes(x = Rrup_OpenQuake, y = T_0.01_RotD50)) +
+  geom_hex() +
+  scale_fill_viridis_c() +
+  labs(title = "Mapa de Calor Hexbin: Distancia vs Aceleración",
+       x = "Log(Distancia de Ruptura)",
+       y = "Log(Aceleración)",
+       fill = "Frecuencia") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" />
+
+**Interpretación:** El mapa hexbin revela la concentración
+predominante de registros en distancias logarítmicas intermedias
+(3.2–5.27) y aceleraciones entre -5.22 y -3.29, con frecuencia
+máxima de ~3165 observaciones. La correlación negativa moderada
+(r = -0.43) confirma el comportamiento de atenuación sísmica.
+
+## Densidad 2D con Contornos
+
+
+``` r
+datos %>%
+  ggplot(aes(x = Rrup_OpenQuake, y = T_0.01_RotD50)) +
+  geom_point(alpha = 0.1, size = 0.5) +
+  geom_density_2d(color = "red") +
+  labs(title = "Contornos de Densidad 2D: Distancia vs Aceleración",
+       x = "Log(Distancia de Ruptura)",
+       y = "Log(Aceleración)") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" />
+
+## Superficie de Densidad 2D
+
+
+``` r
+datos %>%
+  ggplot(aes(x = Rrup_OpenQuake, y = T_0.01_RotD50)) +
+  geom_density_2d() +
+  stat_density_2d(geom = "raster", aes(fill = ..density..), contour = FALSE) +
+  scale_fill_viridis_c() +
+  labs(title = "Superficie de Densidad 2D",
+       x = "Log(Distancia de Ruptura)",
+       y = "Log(Aceleración)") +
+  theme_bw()
+```
+
+<img src="04-covariacion_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" />

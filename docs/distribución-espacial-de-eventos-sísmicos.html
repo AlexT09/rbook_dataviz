@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Análisis Exploratorio de Datos Sísmicos</title>
+  <title>Capítulo 6 Distribución Espacial de Eventos Sísmicos | Análisis Exploratorio de Datos Sísmicos</title>
   <meta name="description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
 sísmicos NGACOL, incluyendo visualización estática, estadísticas de
 resumen, correlaciones y distribución espacial de eventos.</p>" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Análisis Exploratorio de Datos Sísmicos" />
+  <meta property="og:title" content="Capítulo 6 Distribución Espacial de Eventos Sísmicos | Análisis Exploratorio de Datos Sísmicos" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
@@ -19,7 +19,7 @@ resumen, correlaciones y distribución espacial de eventos.</p>" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Análisis Exploratorio de Datos Sísmicos" />
+  <meta name="twitter:title" content="Capítulo 6 Distribución Espacial de Eventos Sísmicos | Análisis Exploratorio de Datos Sísmicos" />
   
   <meta name="twitter:description" content="<p>Análisis Exploratorio de Datos (EDA) aplicado al conjunto de datos
 sísmicos NGACOL, incluyendo visualización estática, estadísticas de
@@ -36,8 +36,8 @@ resumen, correlaciones y distribución espacial de eventos.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="carga-y-exploración-de-datos.html"/>
+<link rel="prev" href="correlación-de-variables-sísmicas.html"/>
+<link rel="next" href="conclusiones.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,35 +218,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Análisis Exploratorio de Datos Sísmicos</h1>
-<p class="author"><em>Alex Teran &amp; Eliasb Pajaro</em></p>
-<p class="date"><em>2026-03-21</em></p>
-</div>
-<div id="prefacio" class="section level1 unnumbered hasAnchor">
-<h1>Prefacio<a href="index.html#prefacio" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Este libro presenta un <strong>Análisis Exploratorio de Datos (EDA)</strong> aplicado
-al conjunto de datos sísmicos <strong>NGACOL</strong>, que reúne registros de
-aceleración del suelo provenientes de la base de datos norteamericana
-NGAW2 y de eventos sísmicos en Colombia.</p>
-<p>El EDA se desarrolla siguiendo el flujo iterativo propuesto en el
-Capítulo 3 del curso:</p>
-<ol style="list-style-type: decimal">
-<li>Generar preguntas sobre los datos</li>
-<li>Buscar respuestas mediante visualización, transformación y estadísticas</li>
-<li>Refinar las preguntas o generar nuevas</li>
-</ol>
-<div id="preguntas-iniciales" class="section level2 unnumbered hasAnchor">
-<h2>Preguntas iniciales<a href="index.html#preguntas-iniciales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<ul>
-<li>¿Cómo se distribuye la aceleración sísmica?</li>
-<li>¿Existe relación entre distancia a la ruptura y aceleración?</li>
-<li>¿Influye el tipo de suelo en la aceleración registrada?</li>
-<li>¿Existe variación espacial en los registros?</li>
-<li>¿La variable sigue un comportamiento log-normal?</li>
-<li>¿Existen diferencias entre los registros de origen NGAW2 y Colombia?</li>
-</ul>
+<div id="distribución-espacial-de-eventos-sísmicos" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Capítulo 6</span> Distribución Espacial de Eventos Sísmicos<a href="distribución-espacial-de-eventos-sísmicos.html#distribuci%C3%B3n-espacial-de-eventos-s%C3%ADsmicos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La visualización espacial permite identificar patrones geográficos
+en los registros y detectar si existen zonas con mayor actividad
+o mayor aceleración registrada.</p>
+<div id="mapa-de-eventos-sísmicos" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Mapa de Eventos Sísmicos<a href="distribución-espacial-de-eventos-sísmicos.html#mapa-de-eventos-s%C3%ADsmicos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Seismic Longitude</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Seismic Latitude</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb42-2"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-2" tabindex="-1"></a>  <span class="fu">borders</span>(<span class="st">&quot;world&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;gray50&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;gray90&quot;</span>) <span class="sc">+</span></span>
+<span id="cb42-3"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> Magnitude, <span class="at">color =</span> T_0<span class="fl">.01</span>_RotD50),</span>
+<span id="cb42-4"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-4" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb42-5"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-5" tabindex="-1"></a>             <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-6" tabindex="-1"></a>  <span class="fu">scale_color_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb42-7"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-7" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb42-8"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución Espacial de Eventos Sísmicos&quot;</span>,</span>
+<span id="cb42-9"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-9" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Longitud&quot;</span>,</span>
+<span id="cb42-10"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-10" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Latitud&quot;</span>,</span>
+<span id="cb42-11"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-11" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">&quot;Magnitud&quot;</span>,</span>
+<span id="cb42-12"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-12" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Log(Aceleración)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="distribución-espacial-de-eventos-sísmicos.html#cb42-13" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="06-espacial_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<p><strong>Interpretación:</strong> La mayoría de los eventos proviene de la costa
+oeste de los Estados Unidos (California, Oregon, Washington), con
+un pequeño grupo de registros en Colombia. Los eventos de mayor
+magnitud no necesariamente coinciden con las mayores aceleraciones
+registradas, dado que la distancia a la estación juega un papel
+fundamental en la atenuación.</p>
 
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb43-2"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb43-3"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb43-4"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-4" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-5" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;NGACOL.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-6"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-6" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb43-7"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-7" tabindex="-1"></a>    <span class="at">Rrup_real =</span> <span class="fu">exp</span>(Rrup_OpenQuake),</span>
+<span id="cb43-8"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-8" tabindex="-1"></a>    <span class="at">Acc_real  =</span> <span class="fu">exp</span>(T_0<span class="fl">.01</span>_RotD50)</span>
+<span id="cb43-9"><a href="distribución-espacial-de-eventos-sísmicos.html#cb43-9" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 </div>
             </section>
@@ -254,8 +262,8 @@ Capítulo 3 del curso:</p>
           </div>
         </div>
       </div>
-
-<a href="carga-y-exploración-de-datos.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="correlación-de-variables-sísmicas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusiones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

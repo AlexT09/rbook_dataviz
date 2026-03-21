@@ -1,0 +1,67 @@
+
+``` r
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+datos <- read_csv("NGACOL.csv") %>%
+  mutate(
+    Rrup_real = exp(Rrup_OpenQuake),
+    Acc_real  = exp(T_0.01_RotD50)
+  )
+```
+
+# Conclusiones
+
+El análisis exploratorio permitió responder las preguntas planteadas
+al inicio y generar nuevas reflexiones sobre los datos sísmicos.
+
+## Respuestas a las preguntas iniciales
+
+**1. ¿Cómo se distribuye la aceleración sísmica?**
+
+La aceleración en escala logarítmica sigue una distribución
+aproximadamente normal (log-normal en escala real), con media -4.12
+y desviación estándar 1.70. Esto fue validado mediante el gráfico
+Q-Q, el histograma y la curva de densidad.
+
+**2. ¿Existe relación entre distancia a la ruptura y aceleración?**
+
+Sí. Se confirma una correlación negativa moderada (r = -0.43,
+p < 0.001), consistente con la atenuación sísmica: a mayor distancia
+a la fuente, menor aceleración registrada.
+
+**3. ¿Influye el tipo de suelo en la aceleración registrada?**
+
+Sí, aunque moderadamente. Los boxplots y gráficos de violín muestran
+diferencias entre clases, y la prueba de Levene confirma
+heterocedasticidad entre grupos (p < 0.05). Los suelos más blandos
+(clases 4 y 5) tienden a amplificar la aceleración.
+
+**4. ¿Existe variación espacial en los registros?**
+
+Sí. Los eventos se concentran en la costa oeste de EE.UU., con un
+cluster diferenciado en Colombia. La variación espacial en magnitud
+y aceleración es visible en el mapa de distribución.
+
+**5. ¿La variable sigue un comportamiento log-normal?**
+
+Sí. El gráfico Q-Q, el histograma y la curva de densidad en escala
+logarítmica son consistentes con normalidad, confirmando el
+comportamiento log-normal de la aceleración sísmica.
+
+**6. ¿Existen diferencias entre registros NGAW2 y Colombia?**
+
+Los datos colombianos cubren un rango más estrecho de distancias y
+magnitudes, pero siguen una curva de atenuación similar a la de
+NGAW2. Esto sugiere compatibilidad con las relaciones de atenuación
+globales, aunque con mayor incertidumbre en distancias extremas.
+
+## Preguntas refinadas para análisis futuros
+
+- ¿Es posible construir un modelo de atenuación diferenciado por
+  clase de suelo para Colombia?
+- ¿Las diferencias entre clases de suelo son estadísticamente
+  significativas al controlar por distancia y magnitud?
+- ¿Qué tan bien predicen los modelos de atenuación globales los
+  registros colombianos?

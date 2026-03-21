@@ -1,7 +1,18 @@
-book_filename: "index"
+book_filename: "eda-ngacol"
+new_session: yes
 output_dir: "docs"
 
-delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "01-datos.Rmd",
+  "02-categoricas.Rmd",
+  "03-continuas.Rmd",
+  "04-covariacion.Rmd",
+  "05-correlacion.Rmd",
+  "06-espacial.Rmd",
+  "07-conclusiones.Rmd"
+]
+
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Capítulo "
